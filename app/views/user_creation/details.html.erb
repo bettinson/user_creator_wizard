@@ -1,0 +1,5 @@
+<%= form_tag next_wizard_path, method: :put do %>
+  <%= text_field_tag :height, :placeholder => 'Height' %>
+  <%= text_field_tag :weight, :placeholder => 'Weight' %>
+  <%= submit_tag 'Next' %>
+<% end %>
