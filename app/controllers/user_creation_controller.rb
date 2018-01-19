@@ -8,10 +8,30 @@ class UserCreationController < ApplicationController
 
   def update
     session[:user] ||= {}
-    permitted.each { |p| session[:user][p] = params[p] if params[p] }
-
     case step
+    when :email
+      unless UserValidations.validate_name(params)
+        redirect_to(wizard_path(:name), alert: 'Invalid name')
+        return
+      end
+      session[:user][:name] = "#{params[:first_name]} #{params[:last_name]}"
+    when :details
+      unless UserValidations.validate_email(params)
+        redirect_to(wizard_path(:email), alert: 'Invalid email')
+        return
+      end
+      session[:user][:email] = params[:email]
+      # session[:user][:details] = params[:email]
+    when :color
+      unless UserValidations.validate_details(params)
+        redirect_to(wizard_path(:details), alert: 'Invalid details')
+        return
+      end
     when :finish
+      unless UserValidations.validate_color(params)
+        redirect_to(wizard_path(:color), alert: 'Invalid color')
+        return
+      end
       @user = User.new(session[:user])
       @user.save!
     end
@@ -21,6 +41,7 @@ class UserCreationController < ApplicationController
   private
 
   def permitted
-    @permitted ||= %w(name email age height weight color).inject([]){ |c, i| c << i.to_sym }
+    @permitted ||= %w(first_name last_name email age height weight color)
+      .inject([]){ |c, i| c << i.to_sym }
   end
 end

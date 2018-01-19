@@ -1,5 +1,6 @@
-
+<%= render "header" %>
 <%= form_tag next_wizard_path, method: :put do %>
-  <%= text_field_tag :name, :placeholder => "First and last name" %>
+  <%= text_field_tag :first_name, "First name" %>
+  <%= text_field_tag :last_name, "Last name" %>
   <%= submit_tag 'Next' %>
 <% end %>

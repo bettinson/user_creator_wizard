@@ -1,5 +1,7 @@
+<%= render "header" %>
+
 <%= form_tag next_wizard_path, method: :put do %>
-  <%= text_field_tag :height, :placeholder => 'Height' %>
-  <%= text_field_tag :weight, :placeholder => 'Weight' %>
+  <%= select_tag :height, options_for_select(UserValidations.valid_heights)%>
+  <%= text_field_tag :weight, 'Weight' %>
   <%= submit_tag 'Next' %>
 <% end %>
