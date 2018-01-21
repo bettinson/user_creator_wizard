@@ -1,6 +1,6 @@
 <%= render "header" %>
 <%= form_tag next_wizard_path, method: :put do %>
-  <%= text_field_tag :first_name, "First name" %>
-  <%= text_field_tag :last_name, "Last name" %>
+  <%= text_field_tag :first_name, nil, placeholder: 'First name' %>
+  <%= text_field_tag :last_name, nil, placeholder: 'Last name' %>
   <%= submit_tag 'Next' %>
 <% end %>

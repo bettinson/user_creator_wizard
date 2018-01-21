@@ -1,1 +1,6 @@
+<%= link_to 'Home', root_path %>
+<br>
 <%= step if step %>
+<% unless current_step == step || current_step == :completed %>
+  <p> Jump to your most recent step: <%= link_to current_step, wizard_path(current_step) %></p>
+<% end %>

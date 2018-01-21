@@ -8,6 +8,7 @@ class UserCreationController < ApplicationController
 
   def update
     session[:user] ||= {}
+    session[:current_step] = step
     case step
     when :email
       unless UserValidations.validate_name(params)
@@ -21,19 +22,26 @@ class UserCreationController < ApplicationController
         return
       end
       session[:user][:email] = params[:email]
-      # session[:user][:details] = params[:email]
     when :color
       unless UserValidations.validate_details(params)
         redirect_to(wizard_path(:details), alert: 'Invalid details')
         return
       end
+      session[:user][:weight] = params[:weight]
+      session[:user][:height] = "#{params[:height_feet]} '#{params[:height_inches]}"
+      session[:user][:age] = params[:age]
     when :finish
       unless UserValidations.validate_color(params)
         redirect_to(wizard_path(:color), alert: 'Invalid color')
         return
       end
-      @user = User.new(session[:user])
-      @user.save!
+      session[:user][:color] = params[:color]
+      user_hash = session[:user].select { |key, value| permitted.include? key }
+      @user = User.new(user_hash)
+      unless @user.save!
+        redirect_to(wizard_path(:name), alert: 'Invalid input.') 
+      end
+      session[:current_step] = 'completed'
     end
     render_wizard
   end
@@ -41,7 +49,7 @@ class UserCreationController < ApplicationController
   private
 
   def permitted
-    @permitted ||= %w(first_name last_name email age height weight color)
-      .inject([]){ |c, i| c << i.to_sym }
+    @permitted ||= %w(name email age height weight color)
+      .inject([]){ |c, i| c << i}
   end
 end

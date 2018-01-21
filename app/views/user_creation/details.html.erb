@@ -1,7 +1,9 @@
 <%= render "header" %>
 
 <%= form_tag next_wizard_path, method: :put do %>
-  <%= select_tag :height, options_for_select(UserValidations.valid_heights)%>
-  <%= text_field_tag :weight, 'Weight' %>
+  <%= select_tag :age, options_for_select(UserValidations.valid_ages)%>
+  <%= text_field_tag :height_feet, nil, placeholder: 'Height (feet)' %>
+  <%= text_field_tag :height_inches, nil, placeholder: 'Height (inches)' %>
+  <%= text_field_tag :weight, nil, placeholder: 'Weight (optional)' %>
   <%= submit_tag 'Next' %>
 <% end %>

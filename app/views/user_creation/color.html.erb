@@ -1,6 +1,7 @@
 <%= render "header" %>
 
 <%= form_tag next_wizard_path, method: :put do %>
-  <%= text_field_tag :color, :placeholder => 'Favorite colour' %>
+  <%= select_tag :color, options_for_select(UserValidations.valid_colors)%>
+  <%= text_field_tag :other, nil, placeholder: 'Other color' %>
   <%= submit_tag 'Finish' %>
 <% end %>
