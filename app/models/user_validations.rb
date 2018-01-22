@@ -4,7 +4,7 @@ module UserValidations
   end
   
   def self.validate_email(params)
-    !!(params[:email] =~ /\A[\w+\-.]+@[a-z\d\-]+(\.[a-z\d\-]+)*\.[a-z]+\z/i)
+    is_email?(params[:email])
   end
 
   def self.validate_details(params)
@@ -12,7 +12,7 @@ module UserValidations
     return false unless is_number?(params[:height_feet])
     return false unless is_number?(params[:height_inches])
     return true if params[:weight] == ""
-    return false unless is_number?(params[:weight])
+    return false unless is_float?(params[:weight])
     true
   end
 
@@ -31,7 +31,15 @@ module UserValidations
 
   private
 
+  def self.is_email?(str)
+    !!(str =~ /\A[\w+\-.]+@[a-z\d\-]+(\.[a-z\d\-]+)*\.[a-z]+\z/i)
+  end
+
   def self.is_number?(str) 
     !!(str =~ /\A[-+]?\d+\z/)
+  end
+
+  def self.is_float?(str)
+    !!Float(str) rescue false
   end
 end

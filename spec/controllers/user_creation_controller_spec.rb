@@ -7,7 +7,7 @@ RSpec.describe UserCreationController, :type => :controller do
       expect do
         put :update, params: {id: 'email', first_name: 'Matt', last_name: 'Bettinson'}
         put :update, params: {id: 'details', email: 'mattbettinson@gmail.com'}
-        put :update, params: {id: 'color', weight: '150', 
+        put :update, params: {id: 'color', weight: '150.2', 
           height_feet: '5', height_inches: '11', age: '18 - 25'}
         put :update, params: {id: 'finish', color: 'Blue'}
       end.to change { User.count }
