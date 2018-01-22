@@ -8,7 +8,8 @@ class UserCreationController < ApplicationController
 
   def update
     session[:user] ||= {}
-    session[:current_step] = step
+
+    # Each step is hit with the previous steps params
     case step
     when :email
       unless UserValidations.validate_name(params)
@@ -32,7 +33,12 @@ class UserCreationController < ApplicationController
       session[:user][:age] = params[:age]
     when :finish
       if params[:color] == 'Other'
-        session[:user][:color] = params[:other]
+        if params[:other] != ''
+          session[:user][:color] = params[:other]
+        else
+          redirect_to(wizard_path(:color), alert: 'Invalid color')
+          return
+        end
       end
       unless UserValidations.validate_color(params)
         redirect_to(wizard_path(:color), alert: 'Invalid color')
@@ -44,8 +50,10 @@ class UserCreationController < ApplicationController
       unless @user.save!
         redirect_to(wizard_path(:name), alert: 'Invalid input.') 
       end
+      session[:user] = {}
       session[:current_step] = 'completed'
     end
+    session[:current_step] = step
     render_wizard
   end
 
