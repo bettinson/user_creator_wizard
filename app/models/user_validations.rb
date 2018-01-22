@@ -4,7 +4,7 @@ module UserValidations
   end
   
   def self.validate_email(params)
-    params[:email] =~ /\A[\w+\-.]+@[a-z\d\-]+(\.[a-z\d\-]+)*\.[a-z]+\z/i
+    !!(params[:email] =~ /\A[\w+\-.]+@[a-z\d\-]+(\.[a-z\d\-]+)*\.[a-z]+\z/i)
   end
 
   def self.validate_details(params)
@@ -21,7 +21,6 @@ module UserValidations
     true
   end
 
-  # TODO, put these in their own module?
   def self.valid_colors
     @colors ||= ['Red', 'Orange', 'Yellow', 'Green', 'Blue', 'Purple', 'Other']
   end
@@ -33,6 +32,6 @@ module UserValidations
   private
 
   def self.is_number?(str) 
-    str =~ /\A[-+]?\d+\z/
+    !!(str =~ /\A[-+]?\d+\z/)
   end
 end

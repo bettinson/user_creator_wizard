@@ -1,24 +1,15 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+## About
 
-Things you may want to cover:
+I used the gem [Wicked](https://github.com/schneems/wicked) to assist in creating a step-by-step flow.
+Due to the limitation of creating a User at the end of the flow only, I created a `UserValidations` class that validates each step of the flow. The User model only verifies if the necessary fields. 
 
-* Ruby version
+## To setup
 
-* System dependencies
+* `bundle` 
+* `rake db:migrate`
 
-* Configuration
+## Test
 
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+* `rake`

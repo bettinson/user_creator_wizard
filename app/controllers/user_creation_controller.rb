@@ -31,12 +31,15 @@ class UserCreationController < ApplicationController
       session[:user][:height] = "#{params[:height_feet]} '#{params[:height_inches]}"
       session[:user][:age] = params[:age]
     when :finish
+      if params[:color] == 'Other'
+        session[:user][:color] = params[:other]
+      end
       unless UserValidations.validate_color(params)
         redirect_to(wizard_path(:color), alert: 'Invalid color')
         return
       end
-      session[:user][:color] = params[:color]
-      user_hash = session[:user].select { |key, value| permitted.include? key }
+      session[:user][:color] = params[:color] unless params[:color] == 'Other'
+      user_hash = session[:user].select { |key, value| permitted.include? key.to_s }
       @user = User.new(user_hash)
       unless @user.save!
         redirect_to(wizard_path(:name), alert: 'Invalid input.') 
